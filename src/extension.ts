@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { toggleColors } from './colorDecorator';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -19,7 +20,22 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('Hello World from Graphene!');
 	});
 
-	context.subscriptions.push(disposable);
+	// Create status bar button
+	const statusBarItem = vscode.window.createStatusBarItem(
+		vscode.StatusBarAlignment.Right,
+		100
+	);
+	statusBarItem.text = "$(gear) Toggle Colors";
+	statusBarItem.tooltip = "Toggle line colors based on commit hash";
+	statusBarItem.command = "graphene.toggleColors";
+	statusBarItem.show();
+
+	// Register toggle colors command
+	const toggleCommand = vscode.commands.registerCommand('graphene.toggleColors', () => {
+		toggleColors(vscode.window.activeTextEditor, statusBarItem);
+	});
+
+	context.subscriptions.push(disposable, toggleCommand, statusBarItem);
 }
 
 // This method is called when your extension is deactivated

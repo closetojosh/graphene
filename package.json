@@ -16,6 +16,10 @@
       {
         "command": "graphene.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "graphene.toggleColors",
+        "title": "Toggle Colors"
       }
     ]
   },
